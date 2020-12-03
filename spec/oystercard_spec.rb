@@ -1,8 +1,8 @@
 require "oystercard"
 
 describe Oystercard do
-  let(:entry) { double :entry }
-  let(:exit) { double :exit }
+  let(:entry) { double :station }
+  let(:exit) { double :station }
   # it "can create an instance of oystercard" do
   #   expect(subject).to be_kind_of(Oystercard)
   # end
@@ -97,8 +97,16 @@ describe Oystercard do
     end
 
     it 'end the current journey' do
+      subject.touch_out(exit)
       expect(subject.in_journey?).to eq false
     end
+
+    let(:journey) { double :current_journey }
+    it 'passes exit station to journey class' do
+      allow(journey).to receive(:finish_journey).and_return(exit)
+      expect(subject.touch_out(exit)).to eq exit
+    end
+
   end
 
   it "stores journeys in history" do
