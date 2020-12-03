@@ -11,4 +11,10 @@ describe Journey do
     subject.finish_journey(station)
     expect(subject.exit_station).to be station
   end
+
+  describe '#fare' do
+    it "returns journey fare" do
+      expect(subject.fare).to eq Journey::PENALTY_FARE
+    end
+  end
 end

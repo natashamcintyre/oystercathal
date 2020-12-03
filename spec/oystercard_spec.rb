@@ -96,14 +96,8 @@ describe Oystercard do
       expect { subject.touch_out(exit) }.to change { subject.balance }
     end
 
-    it 'end the current journey' do
-      subject.touch_out(exit)
-      expect(subject.in_journey?).to eq false
-    end
-
     it 'saves a journey to card history' do
-      subject.touch_out(exit)
-      expect(subject.history).to include(subject.current_journey)
+      expect{ subject.touch_out(exit) }.to change { subject.history }
     end
 
     # let(:journey) { double :current_journey }
