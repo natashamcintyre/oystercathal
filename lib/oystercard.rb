@@ -27,9 +27,10 @@ class Oystercard
   end
 
   def touch_out(exit_station)
-    # deduct(MIN_FARE)
-    # @history << { :entry => @entry, :exit => exit_station }
-    # @current_journey = nil
+    deduct(MIN_FARE)
+    @current_journey.finish_journey(exit_station)
+    #@history << { :entry => @entry, :exit => exit_station }
+    @current_journey = nil
   end
 
   private

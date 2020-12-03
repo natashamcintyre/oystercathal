@@ -101,11 +101,16 @@ describe Oystercard do
       expect(subject.in_journey?).to eq false
     end
 
-    let(:journey) { double :current_journey }
-    it 'passes exit station to journey class' do
-      allow(journey).to receive(:finish_journey).and_return(exit)
-      expect(subject.touch_out(exit)).to eq exit
+    it 'saves a journey to card history' do
+      subject.touch_out(exit)
+      expect(subject.history).to include(subject.current_journey)
     end
+
+    # let(:journey) { double :current_journey }
+    # it 'passes exit station to journey class' do
+    #   allow(journey).to receive(:finish_journey).and_return(exit)
+    #   expect(subject.touch_out(exit)).to eq exit
+    # end
 
   end
 
