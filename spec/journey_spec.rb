@@ -16,5 +16,10 @@ describe Journey do
     it "returns journey fare" do
       expect(subject.fare).to eq Journey::PENALTY_FARE
     end
+
+    it 'returns minimum fare when valid journey?' do
+      allow(subject).to receive(:valid_journey) { true }
+      expect(subject.fare).to eq Journey::MINIMUM_FARE
+    end
   end
 end
