@@ -50,14 +50,14 @@ describe Oystercard do
       expect(subject).to be_in_journey
     end
 
-    it "sets card state to in journey" do
-      subject.top_up(Oystercard::MIN_FARE)
-      subject.touch_in(entry)
-      expect(subject.current_journey).to be_instance_of Journey
-    end
-
     it "raises error if balance is under MIN_FARE" do
       expect { subject.touch_in(entry) }.to raise_error "Insufficient funds"
+    end
+
+    it 'if the user did not manually touch_out, it will do it for them' do
+      subject.top_up(Journey::PENALTY_FARE + 1)
+      subject.touch_in(entry)
+      expect{ subject.touch_in(entry) }.to change { subject.history }
     end
 
   end
@@ -97,6 +97,11 @@ describe Oystercard do
     end
 
     it 'saves a journey to card history' do
+      expect{ subject.touch_out(exit) }.to change { subject.history }
+    end
+
+    it 'will retroactively touch user in if they did not do it before' do
+      subject.top_up(Journey::PENALTY_FARE)
       expect{ subject.touch_out(exit) }.to change { subject.history }
     end
 
