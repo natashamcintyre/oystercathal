@@ -95,6 +95,10 @@ describe Oystercard do
     it "deducts journey fare from balance" do
       expect { subject.touch_out(exit) }.to change { subject.balance }
     end
+
+    it 'end the current journey' do
+      expect(subject.in_journey?).to eq false
+    end
   end
 
   it "stores journeys in history" do
