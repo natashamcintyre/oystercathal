@@ -60,10 +60,6 @@ describe Oystercard do
       expect { subject.touch_in(entry) }.to raise_error "Insufficient funds"
     end
 
-    it "remembers the entry point" do
-      subject.top_up(Oystercard::MIN_FARE)
-      expect { subject.touch_in(entry) }.to change { subject.entry }
-    end
   end
   it { is_expected.to respond_to(:in_journey?) }
   # it "responds to the method in_journey?" do
@@ -88,13 +84,10 @@ describe Oystercard do
 
   describe "#touch_out" do
     before(:each) do
-      # @thing = Thing.new
-      subject.top_up(15)
+      subject.top_up(Oystercard::MIN_FARE)
       subject.touch_in(entry)
     end
     it "sets card state to not in journey" do
-      # subject.top_up(Oystercard::MIN_FARE)
-      # subject.touch_in(entry)
       subject.touch_out(exit)
       expect(subject).not_to be_in_journey
     end
@@ -110,10 +103,10 @@ describe Oystercard do
     subject.touch_out(exit)
     expect(subject).to respond_to(:history)
   end
-  it "stores journeys in history" do
-    subject.top_up(15)
-    subject.touch_in(entry)
-    subject.touch_out(exit)
-    expect(subject.history).to eq([{ :entry => entry, :exit => exit }])
-  end
+  # it "stores journeys in history" do
+  #   subject.top_up(15)
+  #   subject.touch_in(entry)
+  #   subject.touch_out(exit)
+  #   expect(subject.history).to eq([{ :entry => entry, :exit => exit }])
+  # end
 end
